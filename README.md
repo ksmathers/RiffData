@@ -1,8 +1,8 @@
 # RiffData
 
-/RiffData/ is a library for writing files in the RIFF file format.
+*RiffData* is a library for writing files in the RIFF file format.
 
-Also included is /RiffWave/, a sample implementation of Microsoft's 
+Also included is *RiffWave*, a sample implementation of Microsoft's 
 WAV audio data format that writes 8kHz MuLAW formatted sound files.
 
 The RIFF file format was really intended for writing a whole block of
@@ -17,7 +17,7 @@ disk in a single operation.  Extension of that class to maintain an LRU
 block list and flush blocks asynchronously is left to be implemented
 separately.
 
-/ToneGenerator/ is a sample application that generates a simple Sine
+*ToneGenerator* is a sample application that generates a simple Sine
 wave at a specified frequency (440Hz by default) and saves the result
 to WAV.
 
