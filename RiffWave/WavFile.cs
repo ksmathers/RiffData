@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace RiffWave
 {
+    /// <summary>
+    /// Sample implementation of the WAV file format using the RiffData library
+    /// </summary>
     public class WavFile : RiffFile
     {
         FmtChunk fmt;

@@ -13,6 +13,7 @@ namespace RiffWave
     public class FactChunk : ChunkHeader
     {
         Int32Ptr dwSampleLength;
+
         public FactChunk(MappedFile f, int sampleLength) :
             base(f, "fact")
         {

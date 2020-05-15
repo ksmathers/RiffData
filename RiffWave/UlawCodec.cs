@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 namespace RiffWave
 
 {
+    /// <summary>
+    /// Copypasta hack from the DOD implementation
+    /// </summary>
+
     public class UlawCodec
     {
         // Cached table for aLaw and uLaw convertion (16K * 2 bytes each)
