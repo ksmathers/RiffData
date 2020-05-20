@@ -21,12 +21,15 @@ namespace RiffData
     {
         string path;
         FileStream fp;
-        byte[] memory;
+        BlockMem bmem;
+        //byte[] memory;
         int pend;
 
         public MappedFile(string path)
         {
-            this.path = path;  
+            this.path = path;
+            fp = new FileStream(path, FileMode.Create);
+            bmem = new BlockMem(fp);
             Extend(1024);
         }
 
@@ -38,11 +41,7 @@ namespace RiffData
         /// </summary>
         public void Save()
         {
-            fp = new FileStream(path, FileMode.Create);
-            fp.Seek(0, SeekOrigin.Begin);
-            fp.SetLength(0);
-            fp.Write(memory, 0, pend);
-            fp.Close();
+            bmem.Save(pend);
         }
 
         /// <summary>
@@ -54,9 +53,7 @@ namespace RiffData
         {
             newsize += 1023;
             newsize = newsize - (newsize % 1024);
-            byte[] _newmem = new byte[newsize];
-            if (memory != null) Array.Copy(memory, 0, _newmem, 0, memory.Length);
-            memory = _newmem;
+            bmem.Extend(newsize);
         }
 
         /// <summary>
@@ -68,7 +65,7 @@ namespace RiffData
         {
             int p = pend;
             pend += nbytes;
-            if (pend > memory.Length) {
+            if (pend > bmem.Length) {
                 Extend(pend);
             }
             return p;
@@ -98,7 +95,7 @@ namespace RiffData
         /// <param name="b">byte value</param>
         public void WriteByte(int p, byte b)
         {
-            memory[p] = b;
+            bmem.WriteByte(p, b);
         }
 
         /// <summary>
@@ -108,7 +105,7 @@ namespace RiffData
         /// <returns></returns>
         public byte ReadByte(int p)
         {
-            return memory[p];
+            return bmem.ReadByte(p);
         }
 
         /// <summary>
@@ -119,7 +116,7 @@ namespace RiffData
         /// <param name="nbytes">byte count to write</param>
         public void WriteBytes(int p, byte[] buf, int nbytes)
         {
-            Array.Copy(buf, 0, memory, p, nbytes);
+            bmem.WriteBytes(p, buf, nbytes);
         }
 
         /// <summary>
@@ -130,8 +127,7 @@ namespace RiffData
         /// <returns>a new byte buffer</returns>
         public byte[] ReadBytes(int p, int nbytes)
         {
-            var buf = new byte[nbytes];
-            Array.Copy(memory, p, buf, 0, nbytes);
+            var buf = bmem.ReadBytes(p, nbytes);
             return buf;
         }
 
